@@ -1,0 +1,15 @@
+@startuml
+!include <C4/C4_Context>
+
+Person(client, "Клиент", "")
+Person(admin, "Служба поддержки", "")
+System(service, "Сервис удаленного управления", "Монолит управляющий умными устройствами")
+System_Ext(sensor1, "Система мониторинга температуры")
+System_Ext(sensor2, "Система отопления")
+
+Rel(client, service, "Использует")
+Rel(admin, service, "Администрирует")
+Rel(service, sensor1, "Считывает данных о температуре")
+Rel(service, sensor2, "Регулирование отопления")
+
+@enduml
