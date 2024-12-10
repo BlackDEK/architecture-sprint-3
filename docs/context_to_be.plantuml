@@ -16,6 +16,6 @@ Rel(service, sensor1, "Считывает данных о температуре
 Rel(service, sensor2, "Регулирование отопления")
 Rel(service, sensor3, "Включение и отключение света")
 Rel(service, sensor4, "Открытие и закрытие ворот")
-Rel(service, sensor5, "Подключение к трансляции от камер")
+Rel(service, sensor5, "Трансляции видео от камер")
 
 @enduml
