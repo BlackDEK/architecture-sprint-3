@@ -1,15 +1,20 @@
 @startuml
-!include <C4/C4_Context>
+!include <C4/C4_Container>
 
 Person(client, "Клиент", "")
 Person(admin, "Служба поддержки", "")
-System(service, "Сервис удаленного управления", "Монолит управляющий умными устройствами")
 System_Ext(sensor1, "Система мониторинга температуры")
 System_Ext(sensor2, "Система отопления")
+System_Boundary(service, "Сервис удаленного управления") {
+    Container_Ext(frontend, "Web интерфейс для управление умными устройствами", "", "Интерфейс для управления устройствами пользователей")
+    Container(backend, "Монолитный бэкенд", "Java", "Монолит управляющий умными устройствами")
+}
 
-Rel(client, service, "Использует")
-Rel(admin, service, "Администрирует")
-Rel(service, sensor1, "Считывает данных о температуре")
-Rel(service, sensor2, "Регулирование отопления")
+Rel(client, frontend, "Использует")
+Rel(admin, backend, "Администрирует")
+Rel(backend, sensor1, "Считывает данных о температуре")
+Rel(backend, sensor2, "Регулирование отопления")
+Rel(frontend, backend, "Отправка запросов")
+
 
 @enduml
