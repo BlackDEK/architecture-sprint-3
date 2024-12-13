@@ -22,6 +22,9 @@ Container_Boundary(backend, "Микросервисный бэкенд", "Упр
 
     Component(user_manager, "Компонент управления пользователями")
     Component(user_db, "БД управления пользователями")
+
+    Component(device_manager, "Компонент управления устройствами")
+    Component(device_db, "БД управления пользователями")
     
     Component(bff, "Компонент backend for frontend")  
 }
@@ -65,5 +68,9 @@ Rel(user_manager, user_db, "")
 
 Rel(api_getway, bff, "Маршрутизация запросов")
 Rel(bff, broker, "Запрос на сбор данных для frontend")
+
+Rel(api_getway, device_manager, "Маршрутизация запросов")
+Rel(api_getway, device_manager, "Добавление/Удаление нового устройства")
+Rel(device_manager, device_db, "")
 
 @enduml
