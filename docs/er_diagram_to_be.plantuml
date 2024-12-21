@@ -44,7 +44,7 @@ entity Telemetry {
     telemetry_param_n : some_type
 }
 
-User "1" -- "0..*" House
+User "1..*" -- "0..*" House
 House "1" -- "0..*" Device
 DeviceType "1" -- "0..*" Device
 Device "1" -- "0..*" Telemetry
