@@ -71,8 +71,8 @@
 
 - [Диаграмма систем](./docs/context_to_be.plantuml)
 - [Диаграмма контейнера](./docs/container_to_be.plantuml)
-- [Диаграмма компонентов](./docs/component_to_be.plantuml)
-- [Диаграмма кода, компонент управления отоплением](./docs/code_heat_manager_to_be.plantuml)
+- [Диаграмма компонентов, контейнер управления устройств](./docs/component_device_manager_to_be.plantuml)
+- [Диаграмма кода, компонент управления отоплением](./docs/code_heat_component_to_be.plantuml)
 
 ## Задание 3. Разработка ER-диаграммы
 
