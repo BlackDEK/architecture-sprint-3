@@ -1,27 +1,46 @@
 @startuml
 !include <C4/C4_Container>
 
-Person(client, "Клиент", "")
-Person(admin, "Служба поддержки", "")
-System_Ext(sensor1, "Система мониторинга температуры")
-System_Ext(sensor2, "Система отопления")
-System_Ext(sensor3, "Система управления светом")
-System_Ext(sensor4, "Система управления воротами")
-System_Ext(sensor5, "Система управления камерами")
-System_Boundary(service, "Сервис удаленного управления", "Набор микросервисов управляющий умными устройствами") {
-    Container_Ext(frontend, "Web интерфейс для управление умными устройствами", "", "Интерфейс для управления и добавления новых устройств пользователем")
-    Container(admin_frontend, "Web интерфейс для техподдержки", "React", "Позволяет обеспечивать поддержку клиентов. Чтение логов, мониторинг системы, создание задач на обработку ошибок и т.д.")
-    Container(backend, "Микросервисный бэкенд", "Java", "Управляет умными устройствами")
+System_Boundary(backend, "Микросервисный бэкенд", "Управляет умными устройствами") {   
+    Container(service_mesh, "Service Mesh", "Балансировщик нагрузки")   
+    Container(broker, "Брокер сообщений", "Брокер сообщений Kafka")
+    
+    Container(device_manager, "Контейнер управления устройствами")
+    Container(telemetry_manager, "Контейнер телеметрии")
+    Container(house_manager, "Контейнер управления дома")
+    Container(user_manager, "Контейнер управления пользователями") 
 }
+Container_Ext(frontend, "Web интерфейс для управление умными устройствами", "", "Интерфейс для управления и добавления новых устройств пользователем")
+Container(admin_frontend, "Web интерфейс для техподдержки", "React", "Позволяет обеспечивать поддержку клиентов. Чтение логов, мониторинг системы, создание задач на обработку ошибок и т.д.")
+System_Ext(sensor1, "Датчики мониторинга температуры")
+System_Ext(sensor2, "Датчики отопления")
+System_Ext(sensor3, "Датчики управления светом")
+System_Ext(sensor4, "Датчики управления воротами")
+System_Ext(sensor5, "Датчики управления камерами")
 
-Rel(client, frontend, "Использует")
-Rel(admin, admin_frontend, "Администрирует")
-Rel(backend, sensor1, "Считывает данных о температуре")
-Rel(backend, sensor2, "Регулирование отопления")
-Rel(backend, sensor3, "Включение и отключение света")
-Rel(backend, sensor4, "Открытие и закрытие ворот")
-Rel(backend, sensor5, "Трансляции видео от камер")
-Rel(frontend, backend, "Передача команд для управления устройствами")
-Rel(admin_frontend, backend, "Передача команд для администрации")
+Rel(broker, service_mesh, "Маршрутизация сообщений")
+Rel(frontend, service_mesh, "Передача команд для управления устройствами")
+Rel(admin_frontend, service_mesh, "Передача команд для администрации")
+
+Rel(service_mesh, user_manager, "Выполнение операций над устройствами")
+Rel(service_mesh, device_manager, "Добавление/Удаление нового устройства")
+Rel(device_manager, sensor2, "Регулирование отопления")
+Rel(device_manager, sensor3, "Включение и отключение света")
+Rel(device_manager, sensor4, "Открытие и закрытие ворот")
+
+Rel(service_mesh, telemetry_manager, "Добавление/Удаление устройства с которого надо считывать данные")
+Rel(telemetry_manager, sensor1, "Считывает данных о температуре")
+Rel(telemetry_manager, sensor2, "Считывает данных о отоплении")
+Rel(telemetry_manager, sensor3, "Считывает данных о свете")
+Rel(telemetry_manager, sensor4, "Считывает данных о воротах")
+Rel(telemetry_manager, sensor5, "Сохранение трансляции видео от камер")
+Rel(telemetry_manager, broker, "Предоставление данных о показаниях приборов")
+
+Rel(service_mesh, house_manager, "Добавление/Удаление нового устройства в дом")
+Rel(house_manager, broker, "Сбор данных(телеметрия + id устройств которыми можно управлять) для frontend-а")
+
+Rel(service_mesh, user_manager, "Авторизация пользователей")
+Rel(service_mesh, user_manager, "Обновление данных пользователя")
+
 
 @enduml
