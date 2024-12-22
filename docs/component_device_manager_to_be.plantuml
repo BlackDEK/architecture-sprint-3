@@ -4,6 +4,7 @@
 Container_Boundary(device_manager, "Контейнер управления устройствами", "") {
     Component(device_manager_component, "Компонент редактирования типами устройств")
     Component(device_type_db, "БД для всех типов устройств")
+    Component(device_db, "БД для всех устройств")
     Component(heat_component, "Компонент управления отоплением")
     Component(light_component, "Компонент управления светом")
     Component(gate_component, "Компонент управления воротами")
@@ -17,9 +18,17 @@ Rel(service_mesh, device_manager_component, "Добавление/Удалени
 Rel(service_mesh, heat_component, "Запрос на регулирования отопления")
 Rel(service_mesh, light_component, "Запрос на регулирование освещением")
 Rel(service_mesh, gate_component, "Запрос на управление воротами")
-Rel(service_mesh, device_type_db, "Сохранение информации в БД")
+Rel(device_manager_component, device_type_db, "Сохранение информации в БД")
 Rel(heat_component, sensor2, "Регулирование отопления")
 Rel(light_component, sensor3, "Включение и отключение света")
 Rel(gate_component, sensor4, "Открытие и закрытие ворот")
+
+Rel(heat_component, device_type_db, "Запрос данных о типе устройства")
+Rel(light_component, device_type_db, "Запрос данных о типе устройства")
+Rel(gate_component, device_type_db, "Запрос данных о типе устройства")
+
+Rel(heat_component, device_db, "Запрос данных об устройстве")
+Rel(light_component, device_db, "Запрос данных об устройстве")
+Rel(gate_component, device_db, "Запрос данных об устройстве")
 
 @enduml
