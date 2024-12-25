@@ -1,0 +1,32 @@
+@startuml
+title Компонент управления отоплением
+
+class HeatingSystemController {
+    -HeatingSystemService heatingSystemService
+    -Logger logger
+
+    +ResponseEntity<HeatingSystemDto> getHeatingSystem(Long id)
+    +ResponseEntity<HeatingSystemDto> updateHeatingSystem(Long id, HeatingSystemDto heatingSystemDto)
+    +ResponseEntity<Void> turnOn(Long id)
+    +ResponseEntity<Void> turnOff(Long id)
+    +ResponseEntity<Void> changePowerHeat(Long id, Double heatPower)
+}
+
+class HeatingSystemDto {
+    +Long id
+    +double heatPower
+}
+
+class HeatingSystemService {
+    +HeatingSystemDto getHeatingSystem(Long id)
+    +HeatingSystemDto updateHeatingSystem(Long id, HeatingSystemDto heatingSystemDto)
+    +void turnOn(Long id)
+    +void turnOff(Long id)
+    +void changePowerHeat(Long id, Double heatPower)
+}
+
+HeatingSystemController --> HeatingSystemService
+HeatingSystemController --> HeatingSystemDto
+HeatingSystemService --> HeatingSystemDto
+
+@enduml

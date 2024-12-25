@@ -1,0 +1,52 @@
+@startuml
+
+entity User {
+    * id : int
+    --
+    name: string
+    email : string
+    password : string
+}
+
+entity House {
+    * id : int
+    --
+    FK user_id : int
+    address : string
+}
+
+entity DeviceType {
+    * id : int
+    --
+    device_type_param_1 : some_type
+    device_type_param_2 : some_type
+    ...
+    device_type_param_n : some_type
+}
+
+entity Device {
+    * id : int
+    --
+    FK house_id : int
+    FK device_type_id : int
+    device_param_1 : some_type
+    device_param_2 : some_type
+    ...
+    device_param_n : some_type
+}
+
+entity Telemetry {
+    * id : int
+    --
+    telemetry_param_1 : some_type
+    telemetry_param_2 : some_type
+    ...
+    telemetry_param_n : some_type
+}
+
+User "1..*" -- "0..*" House
+House "1" -- "0..*" Device
+DeviceType "1" -- "0..*" Device
+Device "1" -- "0..*" Telemetry
+
+@enduml
